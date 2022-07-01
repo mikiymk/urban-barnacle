@@ -1,5 +1,5 @@
 export function* chain<T, TRetuen, TNext>(...iterators: Iterator<T, TRetuen, TNext>[]): Generator<T, TRetuen, TNext> {
-  for (let iterator of iterables) {
+  for (let iterator of iterators) {
     let cur = iterator.next();
 
     while (!cur.done) {
