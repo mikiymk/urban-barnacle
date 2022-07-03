@@ -60,4 +60,10 @@ describe("unwrap result", () => {
     let result = failure(new Error("foo"));
     expect(() => unwrap(result)).toThrow("foo");
   });
+
+  test("unwrap failure default value", () => {
+    let result = failure(new Error("foo"));
+    expect(() => unwrap(result, 42)).not.toThrow();
+    expect(unwrap(result, 42)).toBe(42);
+  });
 });
