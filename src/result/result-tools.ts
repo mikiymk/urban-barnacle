@@ -1,25 +1,15 @@
-export const and = <S extends {}>(
-  result1: Result<S>,
-  ...results: Result<S>[]
-): Result<S> => {
-  for (const result of results) {
-    if (isFailure(result)) {
-      return result;
-    }
+export const and = <S extends {}, F extends Error>(result: Result<S, F>, andFunction: (value: S) => Result<S, F>): Result<S, F> => {
+  if (isFailure(result)) {
+    return result;
   }
 
-  return results.at(-1) ?? result1;
+  return andFunction(result.value);
 };
 
-export const or = <S extends {}>(
-  result1: Result<S>,
-  ...results: Result<S>[]
-): Result<S> => {
-  for (const result of results) {
-    if (isSuccess(result)) {
-      return result;
-    }
+export const or = <S extends {}, F extends Error>(result: Result<S, F>, orFunction: (error: F) => Result<S, F>): Result<S, F> => {
+  if (isSuccess(result)) {
+    return result;
   }
 
-  return results.at(-1) ?? result1;
+  return orFunction(result.error);
 };
