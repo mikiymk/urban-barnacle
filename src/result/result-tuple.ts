@@ -34,9 +34,11 @@ export const wrap = <S extends {}>(callback: () => S): Result<S> => {
   }
 };
 
-export const unwrap = <S extends {}>(result: Result<S>): S => {
+export const unwrap = <S extends {}>(result: Result<S>, defaultValue?: S): S => {
   if (result[0] !== null) {
     return result[0];
+  } else if (defaultValue !== undefined) {
+    return defaultValue;
   } else {
     throw result[1];
   }
