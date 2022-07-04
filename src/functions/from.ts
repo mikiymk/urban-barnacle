@@ -10,5 +10,7 @@ export function fromIterable<T>(iterable: Iterable<T>): Iterator<T, any, unknown
 }
 
 export function from<T>(iterable: Array<T> | ArrayLike<T> | Iterable<T>): Iterator<T, any, unknown> {
-  return "length" in iterable ? fromArray() : fromIterable();
+  return "length" in iterable && !Array.isArray(iterable)
+    ? fromArray(iterable)
+    : fromIterable(iterable);
 }
