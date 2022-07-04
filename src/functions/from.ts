@@ -1,8 +1,5 @@
-export function* fromArray<T>(array: Array<T> | ArrayLike<T>): Iterator<T, any, unknown> {
-  for (let i = 0; i < array.length; i++) {
-    // lazy call
-    yield array[i];
-  }
+export function fromArray<T>(array: Array<T> | ArrayLike<T>): Iterator<T, any, unknown> {
+  return Array.prototype[Symbol.iterator].call(array);
 }
 
 export function fromIterable<T>(iterable: Iterable<T>): Iterator<T, any, unknown> {
@@ -10,7 +7,5 @@ export function fromIterable<T>(iterable: Iterable<T>): Iterator<T, any, unknown
 }
 
 export function from<T>(iterable: Array<T> | ArrayLike<T> | Iterable<T>): Iterator<T, any, unknown> {
-  return "length" in iterable && !Array.isArray(iterable)
-    ? fromArray(iterable)
-    : fromIterable(iterable);
+  return "length" in iterable ? fromArray(iterable) : fromIterable(iterable);
 }
