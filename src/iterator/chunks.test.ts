@@ -17,10 +17,10 @@ test("transmit next value", () => {
   let iterator = {
     *[Symbol.iterator]() {
       expect(yield 1).toBe(undefined);
-      expect(yield 2).toBe("1");
+      expect(yield 2).toBe("3");
       expect(yield 3).toBe(undefined);
-      expect(yield 4).toBe("3");
-      expect(yield 5).toBe("5");
+      expect(yield 4).toBe("5");
+      expect(yield 5).toBe(undefined);
 
       return 42;
     }
