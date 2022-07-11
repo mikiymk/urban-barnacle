@@ -6,5 +6,5 @@ export const and = <S extends {}, F extends Error>(result: Result<S, F>, andFunc
     return result;
   }
 
-  return andFunction(result.value);
+  return andFunction(result[1]);
 };

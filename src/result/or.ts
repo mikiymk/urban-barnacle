@@ -6,5 +6,5 @@ export const or = <S extends {}, F extends Error>(result: Result<S, F>, orFuncti
     return result;
   }
 
-  return orFunction(result.error);
+  return orFunction(result[1]);
 };
