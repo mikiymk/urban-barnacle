@@ -1,8 +1,7 @@
 export function* dropCount<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, length: number): Generator<T, TReturn, TNext> {
   let cur = iterator.next();
 
-  let i = 0;
-  while (!cur.done && i++ < length) {
+  for (let i = 0; !cur.done && i < length; i++) {
     cur = iterator.next();
   }
 
