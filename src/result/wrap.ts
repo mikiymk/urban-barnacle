@@ -1,3 +1,7 @@
+import { Result } from "./result";
+import { success } from "./success";
+import { failure } from "./failure";
+
 export const wrap = <S extends {}>(callback: () => S): Result<S> => {
   try {
     return success(callback());
