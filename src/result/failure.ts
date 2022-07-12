@@ -1,7 +1,5 @@
-import { Result } from "./result";
+import { ResultFailure } from "./result";
 
-export const failure = <S extends {}, F extends Error>(
-  error: F
-): Result<S, F> => {
+export const failure = <F extends Error>(error: F): ResultFailure<F> => {
   return [false, error];
 };
