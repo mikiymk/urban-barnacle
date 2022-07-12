@@ -1,5 +1,5 @@
-import { Result } from "./result";
+import { ResultSuccess } from "./result";
 
-export const success = <S extends {}>(value: S): Result<S> => {
+export const success = <S extends {}>(value: S): ResultSuccess<S> => {
   return [true, value];
 };
