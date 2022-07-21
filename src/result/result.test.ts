@@ -1,5 +1,12 @@
-import { describe, test, expect } from "vitest";
-import { success, failure, isSuccess, isFailure, wrap, unwrap } from "./result-object";
+import { success } from "./success";
+import { failure } from "./failure";
+import { isSuccess } from "./is-success";
+import { isFailure } from "./is-failure";
+import { wrap } from "./wrap";
+import { getValue } from "./get-value";
+import { getError } from "./get-value";
+import { and } from "./and";
+import { or } from "./or";
 
 describe("generate result", () => {
   test("success", () => {
