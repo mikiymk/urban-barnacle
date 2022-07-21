@@ -10,13 +10,13 @@ import { or } from "./or";
 
 describe("generate result", () => {
   test("success", () => {
-    let expected = { ok: true, value: 42 };
+    let expected = [true, 42];
     let actual = success(42);
     expect(actual).toEqual(expected);
   });
 
   test("failure", () => {
-    let expected = { ok: false, value: new Error("foo") };
+    let expected = [false, new Error("foo")];
     let actual = failure(new Error("foo"));
     expect(actual).toEqual(expected);
   });
@@ -38,19 +38,19 @@ describe("type guard result", () => {
 
 describe("wrap result", () => {
   test("wrap success", () => {
-    let expected = { ok: true, value: 42 };
+    let expected = success(42);
     let actual = wrap(() => 42);
     expect(actual).toEqual(expected);
   });
 
   test("wrap failure", () => {
-    let expected = { ok: false, value: new Error("foo") };
+    let expected = failure(new Error("foo"));
     let actual = wrap(() => { throw new Error("foo"); });
     expect(actual).toEqual(expected);
   });
 
   test("wrap non-error failure", () => {
-    let expected = { ok: false, value: new Error("foo") };
+    let expected = failure(new Error("foo"));
     let actual = wrap(() => { throw "foo"; });
     expect(actual).toEqual(expected);
   });
@@ -59,18 +59,27 @@ describe("wrap result", () => {
 describe("unwrap result", () => {
   test("unwrap success", () => {
     let result = success(42);
-    expect(() => unwrap(result)).not.toThrow();
-    expect(unwrap(result)).toBe(42);
+    expect(() => getValue(result)).not.toThrow();
+    expect(() => getError(result)).toThrow();
+
+    expect(getValue(result)).toBe(42);
   });
 
   test("unwrap failure", () => {
     let result = failure(new Error("foo"));
-    expect(() => unwrap(result)).toThrow("foo");
+    expect(() => getValue(result)).toThrow();
+    expect(() => getError(result)).not.toThrow();
+
+    expect(getError(result)).toEqual(new Error("foo"));
   });
 
-  test("unwrap failure default value", () => {
+  test("unwrap default value", () => {
     let result = failure(new Error("foo"));
-    expect(() => unwrap(result, 42)).not.toThrow();
-    expect(unwrap(result, 42)).toBe(42);
+    expect(() => getValue(result, 42)).not.toThrow();
+    expect(getValue(result, 42)).toBe(42);
+
+    result = success(42);
+    expect(() => getError(result, new Error("foo"))).not.toThrow();
+    expect(getError(result, new Error("foo"))).toEqual(new Error("foo"));
   });
 });
