@@ -8,7 +8,9 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint src",
-    "test": "vitest --run"
+    "type": "tsc -p tsconfig.type.json",
+    "test": "vitest --run",
+    "format": "prettier src -w"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",

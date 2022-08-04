@@ -1,5 +1,4 @@
-import { failure } from "./failure";
-import { success } from "./success";
+import { success, failure } from "./result";
 
 import type { Result, SuccessValue } from "./result";
 
