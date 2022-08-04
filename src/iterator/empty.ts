@@ -1,3 +1,1 @@
-export function* empty(): Generator<never, void, unknown> {
-  return;
-}
+export const empty = function* (): Generator<never, void> {};

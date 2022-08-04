@@ -1,12 +1,17 @@
-import { Result } from "./result";
-import { isSuccess } from "./is-success";
+import { FAILURE_ERROR_INDEX } from "./constants";
+import { isFailure } from "./is-failure";
 
-export const getError = <S extends {}, F extends Error>(result: Result<S, F>, defaultValue?: F): F => {
+import type { Result, SuccessValue } from "./result";
+
+export const getError = <S extends SuccessValue, F extends Error>(
+  result: Result<S, F>,
+  defaultValue?: F
+): F => {
   if (isFailure(result)) {
-    return result[1];
-  } else if (defaultValue !== undefined) {
-    return defaultValue;
-  } else {
+    return result[FAILURE_ERROR_INDEX];
+  }
+  if (typeof defaultValue === "undefined") {
     throw new Error("expect failure but succeed");
   }
+  return defaultValue;
 };

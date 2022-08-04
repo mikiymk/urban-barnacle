@@ -1,8 +1,10 @@
-export function* takeCount<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, length: number): Generator<T, T | TReturn, TNext> {
-  let i = 0;
+export const takeCount = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  length: number
+): Generator<T, T | TReturn, TNext> {
   let cur = iterator.next();
 
-  while (!cur.done && i++ < length) {
+  for (let index = 0; index < length && !cur.done; index += 1) {
     try {
       const next = yield cur.value;
       cur = iterator.next(next);
@@ -12,9 +14,12 @@ export function* takeCount<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNe
   }
 
   return cur.value;
-}
+};
 
-export function* takeWhile<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, takeWhileFunction: (value: T) => boolean): Generator<T, T | TReturn, TNext> {
+export const takeWhile = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  takeWhileFunction: (value: T) => boolean
+): Generator<T, T | TReturn, TNext> {
   let cur = iterator.next();
 
   while (!cur.done) {
@@ -30,14 +35,16 @@ export function* takeWhile<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNe
   }
 
   return cur.value;
-}
+};
 
-export function take<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, condition: number | ((value: T) => boolean)): Generator<T, T | TReturn, TNext> {
+export const take = <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  condition: number | ((value: T) => boolean)
+): Generator<T, T | TReturn, TNext> => {
   if (typeof condition === "number") {
-    // count condition
+    // Count condition
     return takeCount(iterator, condition);
-  } else {
-    // function condition (like filter)
-    return takeWhile(iterator, condition);
   }
-}
+  // Function condition (like filter)
+  return takeWhile(iterator, condition);
+};

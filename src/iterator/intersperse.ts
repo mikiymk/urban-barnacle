@@ -1,4 +1,7 @@
-export function* intersperse<T, TNext, TReturn>(iterator: Iterator<T, TNext, TReturn>, separator: T): Generator<T, TNext, TReturn> {
+export const intersperse = function* <T, TNext, TReturn>(
+  iterator: Iterator<T, TNext, TReturn>,
+  separator: T
+): Generator<T, TNext, TReturn> {
   let cur = iterator.next();
 
   if (!cur.done) {
@@ -21,4 +24,4 @@ export function* intersperse<T, TNext, TReturn>(iterator: Iterator<T, TNext, TRe
   }
 
   return cur.value;
-}
+};

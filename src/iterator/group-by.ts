@@ -1,7 +1,10 @@
-export function* groupBy<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, groupByFunction: (previous: T, current: T) => boolean): Generator<T[], TReturn, TNext> {
+export const groupBy = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  groupByFunction: (previous: T, current: T) => boolean
+): Generator<T[], TReturn, TNext> {
   let prev = iterator.next();
   if (prev.done) {
-    // iterator has no value
+    // Iterator has no value
     return prev.value;
   }
 
@@ -31,4 +34,4 @@ export function* groupBy<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext
 
   yield valueCollector;
   return cur.value;
-}
+};

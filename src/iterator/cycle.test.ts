@@ -1,10 +1,11 @@
-import { describe, test, expect } from "vitest";
+import {  test, expect } from "vitest";
+
 import { cycle } from "./cycle";
 import { from } from "./from";
 
 test("cycle", () => {
-  let iterator = from([1, 2, 3, 4, 5]);
-  let it = cycle(iterator);
+  const iterator = from([1, 2, 3, 4, 5]);
+  const it = cycle(iterator);
 
   expect(it.next()).toEqual({ done: false, value: 1 });
   expect(it.next()).toEqual({ done: false, value: 2 });

@@ -1,10 +1,14 @@
-export function* withIndex<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, start = 0): Generator<[number, T], TReturn, TNext> {
-  let i = start;
+export const withIndex = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  start = 0
+): Generator<[number, T], TReturn, TNext> {
+  let index = start;
   let cur = iterator.next();
 
   while (!cur.done) {
     try {
-      const next = yield [i++, cur.value];
+      const next = yield [index, cur.value];
+      index += 1;
       cur = iterator.next(next);
     } catch (error) {
       iterator.throw?.(error);
@@ -12,4 +16,4 @@ export function* withIndex<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNe
   }
 
   return cur.value;
-}
+};

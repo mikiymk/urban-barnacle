@@ -1,11 +1,15 @@
-import { Result } from "./result";
-import { success } from "./success";
 import { failure } from "./failure";
+import { success } from "./success";
 
-export const wrap = <S extends {}>(callback: () => S): Result<S> => {
+import type { Result, SuccessValue } from "./result";
+
+export const wrap = <S extends SuccessValue>(callback: () => S): Result<S> => {
   try {
     return success(callback());
   } catch (error) {
-    return failure(error instanceof Error ? error : new Error("" + error));
+    if (error instanceof Error) {
+      return failure(error);
+    }
+    return failure(new Error(String(error)));
   }
 };

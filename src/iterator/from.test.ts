@@ -1,24 +1,38 @@
-import { describe, test, expect } from "vitest";
-import { from, fromArray, fromIterable } from "./count-up";
+import { test, expect } from "vitest";
+
+import { from, fromArray, fromIterable } from "./from";
 
 const array = [1, 2, 3, 4, 5];
 const arrayLike = {
-  0: 1, 1: 2, 2: 3, 3: 4, 4: 5,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "0": 1,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "1": 2,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "2": 3,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "3": 4,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "4": 5,
   length: 5,
-}
+};
 const map = new Map([
-  [0, 1], [1, 2], [2, 3], [3, 4],[4, 5],
+  [0, 1],
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [4, 5],
 ]);
 const set = new Set([1, 2, 3, 4, 5]);
 const iterable = {
-  *[Symbol.iterator]() {
+  *[Symbol.iterator](): Generator<number, void> {
     yield 1;
     yield 2;
     yield 3;
     yield 4;
     yield 5;
-  }
-}
+  },
+};
 
 test("fromArray Array", () => {
   const it = fromArray(array);

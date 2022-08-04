@@ -1,12 +1,14 @@
-export function* cycle<T, TNext>(iterator: Iterator<T, void, TNext>): Generator<T, never, TNext> {
+export const cycle = function* <T, TNext>(
+  iterator: Iterator<T, unknown, TNext>
+): Generator<T, never, TNext> {
   let cur = iterator.next();
-  const values = [cur.value];
+  const values = [];
 
   while (!cur.done) {
     try {
+      values.push(cur.value);
       const next = yield cur.value;
       cur = iterator.next(next);
-      values.push(cur.value);
     } catch (error) {
       iterator.throw?.(error);
     }
@@ -21,4 +23,4 @@ export function* cycle<T, TNext>(iterator: Iterator<T, void, TNext>): Generator<
       }
     }
   }
-}
+};

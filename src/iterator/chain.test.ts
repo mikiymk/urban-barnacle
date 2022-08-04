@@ -1,10 +1,11 @@
-import { describe, test, expect } from "vitest";
+import { test, expect } from "vitest";
+
 import { chain } from "./chain";
 import { from } from "./from";
 
 test("chain 1 iterator", () => {
-  let iterator = from([1, 2, 3, 4, 5]);
-  let it = chain(iterator);
+  const iterator = from([1, 2, 3, 4, 5]);
+  const it = chain(iterator);
 
   expect(it.next()).toEqual({ done: false, value: 1 });
   expect(it.next()).toEqual({ done: false, value: 2 });
@@ -15,9 +16,9 @@ test("chain 1 iterator", () => {
 });
 
 test("chain 2 iterator", () => {
-  let iterator1 = from([1, 2, 3, 4, 5]);
-  let iterator2 = from([6, 7, 8, 9, 10]);
-  let it = chain(iterator1, iterator2);
+  const iterator1 = from([1, 2, 3, 4, 5]);
+  const iterator2 = from([6, 7, 8, 9, 10]);
+  const it = chain(iterator1, iterator2);
 
   expect(it.next()).toEqual({ done: false, value: 1 });
   expect(it.next()).toEqual({ done: false, value: 2 });
@@ -34,31 +35,27 @@ test("chain 2 iterator", () => {
 
 test("transmit next value", () => {
   expect.assertions(21);
-  let iterator1 = {
-    *[Symbol.iterator]() {
-      expect(yield 1).toBe("2");
-      expect(yield 2).toBe("3");
-      expect(yield 3).toBe("4");
-      expect(yield 4).toBe("5");
-      expect(yield 5).toBe("6");
+  const iterator1 = function* (): Generator<number, number, string> {
+    expect(yield 1).toBe("2");
+    expect(yield 2).toBe("3");
+    expect(yield 3).toBe("4");
+    expect(yield 4).toBe("5");
+    expect(yield 5).toBe("6");
 
-      return 42;
-    }
+    return 42;
   };
 
-  let iterator2 = {
-    *[Symbol.iterator]() {
-      expect(yield 6).toBe("7");
-      expect(yield 7).toBe("8");
-      expect(yield 8).toBe("9");
-      expect(yield 9).toBe("10");
-      expect(yield 10).toBe("11");
+  const iterator2 = function* (): Generator<number, number, string> {
+    expect(yield 6).toBe("7");
+    expect(yield 7).toBe("8");
+    expect(yield 8).toBe("9");
+    expect(yield 9).toBe("10");
+    expect(yield 10).toBe("11");
 
-      return 43;
-    }
+    return 43;
   };
 
-  let it = chunks(iterator1, iterator2);
+  const it = chain(iterator1(), iterator2());
 
   expect(it.next("1")).toEqual({ done: false, value: 1 });
   expect(it.next("2")).toEqual({ done: false, value: 2 });

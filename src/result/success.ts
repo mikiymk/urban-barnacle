@@ -1,5 +1,5 @@
-import { ResultSuccess } from "./result";
+import type { ResultSuccess, SuccessValue } from "./result";
 
-export const success = <S extends {}>(value: S): ResultSuccess<S> => {
-  return [true, value];
-};
+export const success = <S extends SuccessValue>(value: S): ResultSuccess<S> => [
+  value,
+];

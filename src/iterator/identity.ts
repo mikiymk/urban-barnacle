@@ -1,4 +1,6 @@
-export function* identity<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>): Generator<T, TReturn, TNext> {
+export const identity = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>
+): Generator<T, TReturn, TNext> {
   let cur = iterator.next();
 
   while (!cur.done) {
@@ -11,4 +13,4 @@ export function* identity<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNex
   }
 
   return cur.value;
-}
+};

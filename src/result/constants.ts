@@ -1,0 +1,2 @@
+export const FAILURE_ERROR_INDEX = 1,
+  SUCCESS_VALUE_INDEX = 0;

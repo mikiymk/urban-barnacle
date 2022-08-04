@@ -1,8 +1,9 @@
-import { describe, test, expect } from "vitest";
+import { test, expect } from "vitest";
+
 import { range } from "./range";
 
 test("range", () => {
-  let it = range(0, 5);
+  const it = range(0, 5);
 
   expect(it.next()).toEqual({ done: false, value: 0 });
   expect(it.next()).toEqual({ done: false, value: 1 });
@@ -13,7 +14,7 @@ test("range", () => {
 });
 
 test("range start", () => {
-  let it = range(5, 10);
+  const it = range(5, 10);
 
   expect(it.next()).toEqual({ done: false, value: 5 });
   expect(it.next()).toEqual({ done: false, value: 6 });
@@ -24,7 +25,7 @@ test("range start", () => {
 });
 
 test("range minus start", () => {
-  let it = range(-5, 0);
+  const it = range(-5, 0);
 
   expect(it.next()).toEqual({ done: false, value: -5 });
   expect(it.next()).toEqual({ done: false, value: -4 });
@@ -35,7 +36,7 @@ test("range minus start", () => {
 });
 
 test("range reverse", () => {
-  let it = range(5, 0);
+  const it = range(5, 0);
 
   expect(it.next()).toEqual({ done: false, value: 5 });
   expect(it.next()).toEqual({ done: false, value: 4 });

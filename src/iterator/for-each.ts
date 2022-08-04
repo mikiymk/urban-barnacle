@@ -1,4 +1,8 @@
-export function forEach<T, TReturn, TNext>(iterator: Iterator<T, void, TNext>, forEachFunction: (value: T) => void, nextProvidor: () => TNext): TReturn {
+export const forEach = <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  forEachFunction: (value: T) => void,
+  nextProvidor: () => TNext
+): TReturn => {
   let cur = iterator.next();
 
   while (!cur.done) {
@@ -6,5 +10,5 @@ export function forEach<T, TReturn, TNext>(iterator: Iterator<T, void, TNext>, f
     cur = iterator.next(nextProvidor());
   }
 
-  return cur.value
-}
+  return cur.value;
+};

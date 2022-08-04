@@ -1,4 +1,7 @@
-export function* filter<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, filterFunction: (value: T) => boolean): Generator<T, TReturn, TNext> {
+export const filter = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  filterFunction: (value: T) => boolean
+): Generator<T, TReturn, TNext> {
   let cur = iterator.next();
 
   while (!cur.done) {
@@ -15,4 +18,4 @@ export function* filter<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>
   }
 
   return cur.value;
-}
+};

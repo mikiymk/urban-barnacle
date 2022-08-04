@@ -1,36 +1,38 @@
-import { success } from "./success";
-import { failure } from "./failure";
-import { isSuccess } from "./is-success";
-import { isFailure } from "./is-failure";
-import { wrap } from "./wrap";
-import { getValue } from "./get-value";
-import { getError } from "./get-value";
+import { describe, expect, test } from "vitest";
+
 import { and } from "./and";
+import { failure } from "./failure";
+import { getError } from "./get-error";
+import { getValue } from "./get-value";
+import { isFailure } from "./is-failure";
+import { isSuccess } from "./is-success";
 import { or } from "./or";
+import { success } from "./success";
+import { wrap } from "./wrap";
 
 describe("generate result", () => {
   test("success", () => {
-    let expected = [true, 42];
-    let actual = success(42);
+    const actual = success(42),
+      expected = [42] as const;
     expect(actual).toEqual(expected);
   });
 
   test("failure", () => {
-    let expected = [false, new Error("foo")];
-    let actual = failure(new Error("foo"));
+    const actual = failure(new Error("foo")),
+      expected = [undefined, new Error("foo")];
     expect(actual).toEqual(expected);
   });
 });
 
 describe("type guard result", () => {
   test("success is success", () => {
-    let result = success(42);
+    const result = success(42);
     expect(isSuccess(result)).toBe(true);
     expect(isFailure(result)).toBe(false);
   });
 
   test("failure is failure", () => {
-    let result = failure(new Error("foo"));
+    const result = failure(new Error("foo"));
     expect(isSuccess(result)).toBe(false);
     expect(isFailure(result)).toBe(true);
   });
@@ -38,27 +40,32 @@ describe("type guard result", () => {
 
 describe("wrap result", () => {
   test("wrap success", () => {
-    let expected = success(42);
-    let actual = wrap(() => 42);
+    const actual = wrap(() => 42),
+      expected = success(42);
     expect(actual).toEqual(expected);
   });
 
   test("wrap failure", () => {
-    let expected = failure(new Error("foo"));
-    let actual = wrap(() => { throw new Error("foo"); });
+    const actual = wrap(() => {
+        throw new Error("foo");
+      }),
+      expected = failure(new Error("foo"));
     expect(actual).toEqual(expected);
   });
 
   test("wrap non-error failure", () => {
-    let expected = failure(new Error("foo"));
-    let actual = wrap(() => { throw "foo"; });
+    const actual = wrap(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw "foo";
+      }),
+      expected = failure(new Error("foo"));
     expect(actual).toEqual(expected);
   });
 });
 
 describe("unwrap result", () => {
   test("unwrap success", () => {
-    let result = success(42);
+    const result = success(42);
     expect(() => getValue(result)).not.toThrow();
     expect(() => getError(result)).toThrow();
 
@@ -66,20 +73,78 @@ describe("unwrap result", () => {
   });
 
   test("unwrap failure", () => {
-    let result = failure(new Error("foo"));
+    const result = failure(new Error("foo"));
     expect(() => getValue(result)).toThrow();
     expect(() => getError(result)).not.toThrow();
 
     expect(getError(result)).toEqual(new Error("foo"));
   });
 
-  test("unwrap default value", () => {
-    let result = failure(new Error("foo"));
-    expect(() => getValue(result, 42)).not.toThrow();
-    expect(getValue(result, 42)).toBe(42);
-
-    result = success(42);
+  test("unwrap success with default value", () => {
+    const result = success(42);
     expect(() => getError(result, new Error("foo"))).not.toThrow();
     expect(getError(result, new Error("foo"))).toEqual(new Error("foo"));
+  });
+
+  test("unwrap failure with default value", () => {
+    const result = failure(new Error("foo"));
+    expect(() => getValue(result, 42)).not.toThrow();
+    expect(getValue(result, 42)).toBe(42);
+  });
+});
+
+describe("and result", () => {
+  test("success and success", () => {
+    const actual = and(success(42), () => success(43)),
+      expected = success(43);
+    expect(actual).toEqual(expected);
+  });
+
+  test("success and failure", () => {
+    const actual = and(success(42), () => failure(new Error("bar"))),
+      expected = failure(new Error("bar"));
+    expect(actual).toEqual(expected);
+  });
+
+  test("failure and success", () => {
+    const actual = and(failure(new Error("foo")), () => success(43)),
+      expected = failure(new Error("foo"));
+    expect(actual).toEqual(expected);
+  });
+
+  test("failure and failure", () => {
+    const actual = and(failure(new Error("foo")), () =>
+        failure(new Error("bar"))
+      ),
+      expected = failure(new Error("foo"));
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe("or result", () => {
+  test("success or success", () => {
+    const actual = or(success(42), () => success(43)),
+      expected = success(42);
+    expect(actual).toEqual(expected);
+  });
+
+  test("success or failure", () => {
+    const actual = or(success(42), () => failure(new Error("bar"))),
+      expected = success(42);
+    expect(actual).toEqual(expected);
+  });
+
+  test("failure or success", () => {
+    const actual = or(failure(new Error("foo")), () => success(43)),
+      expected = success(43);
+    expect(actual).toEqual(expected);
+  });
+
+  test("failure or failure", () => {
+    const actual = or(failure(new Error("foo")), () =>
+        failure(new Error("bar"))
+      ),
+      expected = failure(new Error("bar"));
+    expect(actual).toEqual(expected);
   });
 });

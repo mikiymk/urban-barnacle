@@ -1,7 +1,7 @@
-import { Result, ResultSuccess } from "./result";
+import { SUCCESS_VALUE_INDEX } from "./constants";
 
-export const isSuccess = <S extends {}>(
+import type { Result, ResultSuccess, SuccessValue } from "./result";
+
+export const isSuccess = <S extends SuccessValue>(
   result: Result<S>
-): result is ResultSuccess<S> => {
-  return result[0];
-};
+): result is ResultSuccess<S> => result[SUCCESS_VALUE_INDEX] !== undefined;

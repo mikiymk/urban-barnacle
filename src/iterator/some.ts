@@ -1,4 +1,7 @@
-export function some<T>(iterator: Iterator<T>, someFunction: (value: T) => boolean): boolean {
+export const some = <T>(
+  iterator: Iterator<T>,
+  someFunction: (value: T) => boolean
+): boolean => {
   let cur = iterator.next();
 
   while (!cur.done) {
@@ -9,4 +12,4 @@ export function some<T>(iterator: Iterator<T>, someFunction: (value: T) => boole
   }
 
   return false;
-}
+};

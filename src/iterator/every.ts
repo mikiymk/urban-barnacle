@@ -1,4 +1,7 @@
-export function every<T>(iterator: Iterator<T>, everyFunction: (value: T) => boolean): boolean {
+export const every = <T>(
+  iterator: Iterator<T>,
+  everyFunction: (value: T) => boolean
+): boolean => {
   let cur = iterator.next();
 
   while (!cur.done) {
@@ -9,4 +12,4 @@ export function every<T>(iterator: Iterator<T>, everyFunction: (value: T) => boo
   }
 
   return true;
-}
+};

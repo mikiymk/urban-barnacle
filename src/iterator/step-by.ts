@@ -1,6 +1,9 @@
-export function* stepBy<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>, step: number): Generator<T, TReturn, TNext> {
+export const stepBy = function* <T, TReturn, TNext>(
+  iterator: Iterator<T, TReturn, TNext>,
+  step: number
+): Generator<T, TReturn, TNext> {
   if (step <= 0) {
-    throw new RangeError("argument[1] is positive number but " + step + ".");
+    throw new RangeError(`argument[1] is positive number but ${step}.`);
   }
 
   let cur = iterator.next();
@@ -10,7 +13,7 @@ export function* stepBy<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>
       const next = yield cur.value;
 
       // `step` times
-      for (let i = 0; i < step && !cur.done; i++) {
+      for (let index = 0; index < step && !cur.done; index += 1) {
         cur = iterator.next(next);
       }
     } catch (error) {
@@ -19,4 +22,4 @@ export function* stepBy<T, TReturn, TNext>(iterator: Iterator<T, TReturn, TNext>
   }
 
   return cur.value;
-}
+};
