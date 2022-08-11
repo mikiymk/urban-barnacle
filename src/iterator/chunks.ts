@@ -14,9 +14,8 @@ export const chunks = function* <T, TReturn, TNext, N extends number>(
 
   while (!cur.done) {
     const valueCollector = [];
-    const incr = 1;
 
-    for (let index = 0; index < size && !cur.done; index += incr) {
+    for (let index = 0; index < size && !cur.done; index += 1) {
       valueCollector.push(cur.value);
       if (next === undefined) cur = iterator.next();
       else cur = iterator.next(next);

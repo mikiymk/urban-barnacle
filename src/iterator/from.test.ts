@@ -4,18 +4,16 @@ import { from, fromArray, fromIterable } from "./from";
 
 const array = [1, 2, 3, 4, 5];
 const arrayLike = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+  /* eslint-disable @typescript-eslint/naming-convention */
   "0": 1,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "1": 2,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "2": 3,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "3": 4,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "4": 5,
+  /* eslint-enable @typescript-eslint/naming-convention */
   length: 5,
 };
+
 const map = new Map([
   [0, 1],
   [1, 2],

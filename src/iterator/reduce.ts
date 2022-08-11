@@ -1,19 +1,39 @@
-export const reduce = function <T, TNext, U>(
-  iterator: Iterator<T, void, TNext>,
+type ReduceType = {
+  <T>(
+    iterator: Iterator<T>,
+    reduceFunction: (previousValue: T, currentValue: T) => T
+  ): T | undefined;
+  <T, U>(
+    iterator: Iterator<T>,
+    reduceFunction: (previousValue: U, currentValue: T) => U,
+    initialValue: U
+  ): U;
+};
+
+export const reduce: ReduceType = function <T, U>(
+  iterator: Iterator<T>,
   reduceFunction: (previousValue: T | U, currentValue: T) => T | U,
   initialValue?: U
 ): T | U | undefined {
-  let curr = iterator.next();
-  if (curr.done) {
+  const previous = iterator.next();
+  if (previous.done) {
     return initialValue;
   }
-  let prev: T | U = initialValue ?? curr.value;
-  curr = iterator.next();
+  let previousValue: T | U;
+  let current: IteratorResult<T>;
 
-  while (!curr.done) {
-    prev = reduceFunction(prev, curr.value);
-    curr = iterator.next();
+  if (initialValue === undefined) {
+    previousValue = previous.value;
+    current = iterator.next();
+  } else {
+    previousValue = initialValue;
+    current = previous;
   }
 
-  return prev;
+  while (!current.done) {
+    previousValue = reduceFunction(previousValue, current.value);
+    current = iterator.next();
+  }
+
+  return previousValue;
 };

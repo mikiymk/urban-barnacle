@@ -10,28 +10,29 @@ export const groupBy = function* <T, TReturn, TNext>(
 
   let cur = iterator.next();
 
-  let valueCollector = [prev.value];
-  while (!cur.done && groupByFunction(prev.value, cur.value)) {
-    valueCollector.push(cur.value);
-    prev = cur;
-    cur = iterator.next();
-  }
-
+  let valueCollector = [];
   while (!cur.done) {
-    try {
-      const next = yield valueCollector;
+    valueCollector.push(prev.value);
 
-      valueCollector = [];
-      while (!cur.done && groupByFunction(prev.value, cur.value)) {
-        valueCollector.push(cur.value);
-        prev = cur;
-        cur = iterator.next(next);
+    let next = undefined;
+    if (!groupByFunction(prev.value, cur.value)) {
+      try {
+        next = yield valueCollector;
+      } catch (error) {
+        iterator.throw?.(error);
       }
-    } catch (error) {
-      iterator.throw?.(error);
+      valueCollector = [];
+    }
+
+    prev = cur;
+    if (next === undefined) {
+      cur = iterator.next();
+    } else {
+      cur = iterator.next(next);
     }
   }
 
+  valueCollector.push(prev.value);
   yield valueCollector;
   return cur.value;
 };
