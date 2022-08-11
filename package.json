@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "type": "tsc -p tsconfig.type.json",
     "test": "vitest --run",
-    "format": "prettier src -w"
+    "format": "prettier src -w",
+    "testall": "npm run format && npm run type && npm run lint && npm run test && npm run build"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",
