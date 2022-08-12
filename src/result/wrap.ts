@@ -1,4 +1,4 @@
-import type { Result, SuccessValue } from "./result";
+import type { Result, ResultSuccess, ResultFailure, SuccessValue } from "./result";
 
 export const success = <S extends SuccessValue>(value: S): ResultSuccess<S> => [
   value,
