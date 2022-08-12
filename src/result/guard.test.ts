@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { isSuccess, isFailure } from "./guard";
-import { success, failure } from "./result";
+import { success, failure } from "./wrap";
 
 describe("type guard result", () => {
   test("success is success", () => {
