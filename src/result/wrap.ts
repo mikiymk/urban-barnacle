@@ -1,8 +1,15 @@
-import { success, failure } from "./result";
-
 import type { Result, SuccessValue } from "./result";
 
-export const wrap = <S extends SuccessValue>(callback: () => S): Result<S> => {
+export const success = <S extends SuccessValue>(value: S): ResultSuccess<S> => [
+  value,
+];
+
+export const failure = <F extends Error>(error: F): ResultFailure<F> => [
+  undefined,
+  error,
+];
+
+export const tryResult = <S extends SuccessValue>(callback: () => S): Result<S> => {
   try {
     return success(callback());
   } catch (error) {
