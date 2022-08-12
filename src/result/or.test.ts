@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { or } from "./or";
-import { success, failure } from "./result";
+import { success, failure } from "./wrap";
 
 describe("result or result", () => {
   test("success or success", () => {
