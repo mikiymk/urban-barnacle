@@ -9,7 +9,7 @@ export const failure = <F extends Error>(error: F): ResultFailure<F> => [
   error,
 ];
 
-export const tryResult = <S extends SuccessValue>(callback: () => S): Result<S> => {
+export const result = <S extends SuccessValue>(callback: () => S): Result<S> => {
   try {
     return success(callback());
   } catch (error) {
