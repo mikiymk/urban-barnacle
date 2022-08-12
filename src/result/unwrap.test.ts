@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
-import { success, failure } from "./result";
 import { getValue, getError } from "./unwrap";
+import { success, failure } from "./wrap";
 
 describe("unwrap result", () => {
   test("unwrap success", () => {
