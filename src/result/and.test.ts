@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { and } from "./and";
-import { success, failure } from "./result";
+import { success, failure } from "./wrap";
 
 describe("result and result", () => {
   test("success and success", () => {
