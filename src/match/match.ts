@@ -3,12 +3,14 @@ const matchDefault = Symbol("default");
 
 export const match = <T, U, Cs extends Case<T, U>[]>(value: T, ...cases: Cs): U => {
   let defaultExpression = undefined;
-  for (const [pattern, expression] of cases) {
-    if (matchPattern(value, pattern)) {
-      return execute(value, expression);
-    }
-    if (pattern === matchDefault) {
-      defaultExpression = expression;
+  for (const case of cases) {
+    if (case.length === 1) {
+      [defaultExpression] = case;
+    } else {
+      const [pattern, expression] = case;
+      if (matchPattern(value, pattern)) {
+        return execute(value, expression);
+      }
     }
   }
 
