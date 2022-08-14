@@ -32,3 +32,24 @@ const execute = <T, U>(value: T, expression: Expression<T, U>): U => {
 
   return expression;
 };
+
+const objectPatternCase = (pattern) => ({
+  [matchObject]: (value) => objectPattern(value, pattern),
+});
+
+const objectPattern = (value, pattern) => {
+  for (const [patternKey, patternValue] of Object.entries(pattern)) {
+    if (!(patternKey in value)) return false;
+
+    let isMatch = false;
+    if (typeof patternValue === "object" && !(matchObject in patternValue)) {
+      isMatch = objectPattern(value[patternKey], patternValue);
+    } else {
+      isMatch = matchPattern(value[patternKey], patternValue);
+    }
+
+    if (!isMatch) return false;
+  }
+
+  return true;
+};
