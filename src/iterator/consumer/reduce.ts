@@ -1,3 +1,5 @@
+import { identity } from "../transformer/identity";
+
 type ReduceType = {
   <T>(
     iterator: Iterator<T>,
@@ -15,24 +17,19 @@ export const reduce: ReduceType = function <T, U>(
   reduceFunction: (previousValue: T | U, currentValue: T) => T | U,
   initialValue?: U
 ): T | U | undefined {
-  const previous = iterator.next();
-  if (previous.done) {
-    return initialValue;
-  }
   let previousValue: T | U;
-  let current: IteratorResult<T>;
-
   if (initialValue === undefined) {
+    const previous = iterator.next();
+    if (previous.done) {
+      return initialValue;
+    }
     previousValue = previous.value;
-    current = iterator.next();
   } else {
     previousValue = initialValue;
-    current = previous;
   }
 
-  while (!current.done) {
-    previousValue = reduceFunction(previousValue, current.value);
-    current = iterator.next();
+  for (const value of identity(iterator)) {
+    previousValue = reduceFunction(previousValue, value);
   }
 
   return previousValue;

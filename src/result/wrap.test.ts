@@ -1,17 +1,19 @@
 import { describe, expect, test } from "vitest";
 
+import { FAILURE_TAG, SUCCESS_TAG } from "./result";
+
 import { success, failure, result } from "./wrap";
 
 describe("generate result", () => {
   test("success", () => {
     const actual = success(42),
-      expected = [42] as const;
+      expected = [SUCCESS_TAG, 42] as const;
     expect(actual).toEqual(expected);
   });
 
   test("failure", () => {
     const actual = failure(new Error("foo")),
-      expected = [undefined, new Error("foo")] as const;
+      expected = [FAILURE_TAG, new Error("foo")] as const;
     expect(actual).toEqual(expected);
   });
 });

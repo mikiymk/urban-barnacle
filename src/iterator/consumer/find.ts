@@ -1,14 +1,13 @@
+import { identity } from "../transformer/identity";
+
 export const find = function <T>(
   iterator: Iterator<T>,
   findFunction: (value: T) => boolean
 ): T | undefined {
-  let cur = iterator.next();
-
-  while (!cur.done) {
-    if (findFunction(cur.value)) {
-      return cur.value;
+  for (const value of identity(iterator)) {
+    if (findFunction(value)) {
+      return value;
     }
-    cur = iterator.next();
   }
 
   return undefined;

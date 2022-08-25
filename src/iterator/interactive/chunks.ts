@@ -1,5 +1,5 @@
 type Zero = 0;
-type TupleOrLess<I, L extends number, T extends I[] = []> = L extends Zero
+type TupleOrLess<I, L extends number, T extends I[] = [I]> = L extends Zero
   ? []
   : T["length"] extends L
   ? T

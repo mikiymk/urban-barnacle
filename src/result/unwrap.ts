@@ -6,7 +6,7 @@ export const getValue = <S extends SuccessValue, F extends Error>(
   result: Result<S, F>,
   defaultValue?: S
 ): S => {
-  if (isSuccess(result)) return result[0];
+  if (isSuccess(result)) return result[1];
   if (typeof defaultValue === "undefined")
     throw new Error("failed to get value", { cause: result[1] });
   return defaultValue;

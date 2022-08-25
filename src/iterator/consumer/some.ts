@@ -1,14 +1,13 @@
+import { identity } from "../transformer/identity";
+
 export const some = <T>(
   iterator: Iterator<T>,
   someFunction: (value: T) => boolean
 ): boolean => {
-  let cur = iterator.next();
-
-  while (!cur.done) {
-    if (someFunction(cur.value)) {
+  for (const value of identity(iterator)) {
+    if (someFunction(value)) {
       return true;
     }
-    cur = iterator.next();
   }
 
   return false;
