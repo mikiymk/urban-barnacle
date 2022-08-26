@@ -24,7 +24,7 @@ export const failure = <F extends Error>(error: F): ResultFailure<F> => [
   error,
 ];
 
-export const result = <S extends SuccessValue>(
+export const wrap = <S extends SuccessValue>(
   callback: () => S
 ): Result<S> => {
   try {

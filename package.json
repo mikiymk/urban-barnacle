@@ -5,6 +5,12 @@
     "name": "mikiymk",
     "url": "https://github.com/mikiymk"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./result": "./src/result.ts",
+    "./iterator": "./src/iterator.ts",
+    "./iterator/interactive": "./src/iterator/interactive.ts"
+  },
   "scripts": {
     "build": "tsc",
     "lint": "eslint src",
