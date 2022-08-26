@@ -1,6 +1,3 @@
-export const SUCCESS_TAG = Symbol("success");
-export const FAILURE_TAG = Symbol("failure");
-
 export type SuccessValue =
   | Record<string, unknown>
   | bigint
@@ -8,25 +5,19 @@ export type SuccessValue =
   | number
   | string
   | symbol;
-export type ResultSuccess<S extends SuccessValue> = readonly [
-  typeof SUCCESS_TAG,
-  S
-];
-export type ResultFailure<F extends Error = Error> = readonly [
-  typeof FAILURE_TAG,
-  F
-];
+export type ResultSuccess<S extends SuccessValue> = readonly [S, undefined];
+export type ResultFailure<F extends Error = Error> = readonly [undefined, F];
 export type Result<S extends SuccessValue, F extends Error = Error> =
   | ResultFailure<F>
   | ResultSuccess<S>;
 
 export const success = <S extends SuccessValue>(value: S): ResultSuccess<S> => [
-  SUCCESS_TAG,
   value,
+  undefined,
 ];
 
 export const failure = <F extends Error>(error: F): ResultFailure<F> => [
-  FAILURE_TAG,
+  undefined,
   error,
 ];
 
@@ -43,17 +34,17 @@ export const wrap = <S extends SuccessValue>(callback: () => S): Result<S> => {
 
 export const isSuccess = <S extends SuccessValue>(
   result: Result<S>
-): result is ResultSuccess<S> => result[0] === SUCCESS_TAG;
+): result is ResultSuccess<S> => result[0] !== undefined;
 
 export const isFailure = <S extends SuccessValue, F extends Error>(
   result: Result<S, F>
-): result is ResultFailure<F> => result[0] === FAILURE_TAG;
+): result is ResultFailure<F> => result[1] !== undefined;
 
 export const getValue = <S extends SuccessValue, F extends Error>(
   result: Result<S, F>,
   defaultValue?: S
 ): S => {
-  if (isSuccess(result)) return result[1];
+  if (isSuccess(result)) return result[0];
   if (typeof defaultValue === "undefined")
     throw new Error("failed to get value", { cause: result[1] });
   return defaultValue;

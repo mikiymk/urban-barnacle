@@ -1,5 +1,5 @@
-export const SUCCESS_TAG = Symbol("success");
-export const FAILURE_TAG = Symbol("failure");
+export const SUCCESS_TAG = "success";
+export const FAILURE_TAG = "failure";
 
 export type SuccessValue =
   | Record<string, unknown>
