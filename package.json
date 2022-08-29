@@ -7,7 +7,6 @@
   },
   "main": "./dist/index.js",
   "exports": {
-    ".": "./dist/index.js",
     "./result": "./dist/result.js",
     "./result/*": "./dist/result/*.js",
     "./iterator": "./dist/iterator.js",

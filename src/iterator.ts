@@ -4,6 +4,7 @@ export { forEach } from "./iterator/consumer/for-each";
 export { reduce } from "./iterator/consumer/reduce";
 export { some } from "./iterator/consumer/some";
 export { toArray } from "./iterator/consumer/to-array";
+export { toIterable } from "./iterator/consumer/to-iterable";
 
 export { countUp } from "./iterator/provider/count-up";
 export { empty } from "./iterator/provider/empty";
