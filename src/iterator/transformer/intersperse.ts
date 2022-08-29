@@ -1,4 +1,4 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 export const intersperse = function* <T>(
   iterator: Iterator<T>,
@@ -9,7 +9,7 @@ export const intersperse = function* <T>(
     yield cur.value;
   }
 
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     yield separator;
     yield value;
   }

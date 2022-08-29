@@ -1,3 +1,5 @@
+import { toIterable } from "../consumer/to-iterable";
+
 export const stepBy = function* <T>(
   iterator: Iterator<T>,
   step: number
@@ -6,15 +8,14 @@ export const stepBy = function* <T>(
     throw new RangeError(`step is positive number but ${step}.`);
   }
 
-  let cur = iterator.next();
-
-  while (!cur.done) {
-    yield cur.value;
-    cur = iterator.next();
-
-    // `step` times
-    for (let index = 0; index < step - 1 && !cur.done; index += 1) {
-      cur = iterator.next();
+  let count = 0;
+  for (const value of toIterable(iterator)) {
+    if (count) {
+      // `step` times
+      count -= 1;
+    } else {
+      count = step - 1;
+      yield value;
     }
   }
 };

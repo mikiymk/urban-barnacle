@@ -1,11 +1,11 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 export const takeCount = function* <T>(
   iterator: Iterator<T>,
   length: number
 ): Generator<T, void, undefined> {
   let index = 0;
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     if (index >= length) {
       break;
     }
@@ -18,7 +18,7 @@ export const takeWhile = function* <T>(
   iterator: Iterator<T>,
   takeWhileFunction: (value: T) => boolean
 ): Generator<T, void, undefined> {
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     if (!takeWhileFunction(value)) {
       break;
     }

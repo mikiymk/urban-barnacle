@@ -1,4 +1,4 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 export const dropCount = function* <T>(
   iterator: Iterator<T>,
@@ -12,7 +12,7 @@ export const dropCount = function* <T>(
 
   if (!cur.done) yield cur.value;
 
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     yield value;
   }
 };
@@ -29,7 +29,7 @@ export const dropWhile = function* <T>(
 
   if (!cur.done) yield cur.value;
 
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     yield value;
   }
 };

@@ -1,4 +1,4 @@
-import { identity } from "../transformer/identity";
+import { toIterable } from "./to-iterable";
 
 type ReduceType = {
   <T>(
@@ -28,7 +28,7 @@ export const reduce: ReduceType = function <T, U>(
     previousValue = initialValue;
   }
 
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     previousValue = reduceFunction(previousValue, value);
   }
 

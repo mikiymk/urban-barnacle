@@ -1,10 +1,10 @@
-import { identity } from "../transformer/identity";
+import { toIterable } from "./to-iterable";
 
 export const find = function <T>(
   iterator: Iterator<T>,
   findFunction: (value: T) => boolean
 ): T | undefined {
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     if (findFunction(value)) {
       return value;
     }

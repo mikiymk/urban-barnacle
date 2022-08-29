@@ -5,12 +5,19 @@
     "name": "mikiymk",
     "url": "https://github.com/mikiymk"
   },
+  "main": "./dist/index.js",
   "exports": {
-    ".": "./dist/index.ts",
-    "./result": "./dist/result.ts",
-    "./result/*": "./dist/result/*.ts",
-    "./iterator": "./dist/iterator.ts",
-    "./iterator/interactive": "./dist/iterator/interactive.ts"
+    ".": "./dist/index.js",
+    "./result": "./dist/result.js",
+    "./result/*": "./dist/result/*.js",
+    "./iterator": "./dist/iterator.js",
+    "./iterator/interactive": "./dist/iterator/interactive.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsc",

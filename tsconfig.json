@@ -4,10 +4,11 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "isolatedModules": true,
     "outDir": "dist",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noEmit": false
   },
   "include": ["src"],
   "exclude": ["**/*.test.ts"]

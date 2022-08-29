@@ -1,4 +1,4 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 export const withIndex = function* <T>(
   iterator: Iterator<T>,
@@ -6,7 +6,7 @@ export const withIndex = function* <T>(
 ): Generator<[number, T], void, undefined> {
   let index = start;
 
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     yield [index, value];
     index += 1;
   }

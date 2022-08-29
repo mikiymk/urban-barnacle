@@ -1,4 +1,4 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 type Tuple<I, L extends number, T extends I[] = []> = L extends 0
   ? []
@@ -18,7 +18,7 @@ export const windows = function* <T, N extends number>(
     valueCollector.push(cur.value);
   }
 
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     yield valueCollector as Tuple<T, N>;
     [, ...valueCollector] = [...valueCollector, value];
   }

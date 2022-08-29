@@ -1,4 +1,4 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 export const groupBy = function* <T>(
   iterator: Iterator<T>,
@@ -12,7 +12,7 @@ export const groupBy = function* <T>(
 
   let prevValue = prev.value;
   let valueCollector = [prevValue];
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     if (!groupByFunction(prevValue, value)) {
       yield valueCollector;
       valueCollector = [];

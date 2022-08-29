@@ -1,4 +1,4 @@
-import { identity } from "./identity";
+import { toIterable } from "../consumer/to-iterable";
 
 const isIterable = <T>(obj: Iterator<T> | T): obj is Iterator<T> =>
   typeof obj === "object" &&
@@ -55,7 +55,7 @@ export const flat: FlatType = function* <T, Depth extends number>(
   iterator: Iterator<T>,
   depth: Depth
 ): Generator<unknown, void, undefined> {
-  for (const value of identity(iterator)) {
+  for (const value of toIterable(iterator)) {
     if (isIterable<T>(value) && depth > 0) {
       yield* flat(value, depth - 1);
     } else {
